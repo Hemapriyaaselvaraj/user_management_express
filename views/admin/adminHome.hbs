@@ -1,69 +1,125 @@
-<link rel="stylesheet" href="/styles/adminHome.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/styles/adminHome.css" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
 
 
-
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="/styles/adminHome.css" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/adminHome.css" />
+  </head>
 
-<body>
-  <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2>User Panel</h2>
-      <ul>
-        <li><i class="fas fa-home"></i> Dashboard</li>
-        <li><i class="fas fa-users"></i> Users</li>
-        <li><i class="fas fa-user-plus"></i> Add User</li>
-        <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-      </ul>
-    </aside>
+  <body>
+    <div class="dashboard-wrapper">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <h2>User Panel</h2>
+        <ul>
+          <li><i class="fas fa-home"></i> Dashboard</li>
+          <li><i class="fas fa-users"></i> Users</li>
+          <li><i class="fas fa-user-plus"></i> Add User</li>
+          <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+      </aside>
 
-    <!-- Main Content -->
-    <main class="dashboard-content">
-      <h1>User List</h1>
-      <p class="welcome">Welcome back, Admin!</p>
+      <!-- Main Content -->
+      <main class="dashboard-content">
+        <h1>User List</h1>
+        <p class="welcome">Welcome back, Admin!</p>
 
-      <div class="user-table-wrapper">
-        <table class="user-table">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Email ID</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each users}}
-            <tr>
-              <td>{{@index}}</td>
-              <td>{{this.email}}</td>
-              <td>{{this.role}}</td>
+        <div class="user-table-wrapper">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Email ID</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users}}
+                <tr>
+                  <td>{{@index}}</td>
+                  <td>{{this.email}}</td>
+                  <td>{{this.role}}</td>
 
-              <td>
-                <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
-                <button class="delete-btn" data-id="{{this._id}}"><i class="fas fa-trash-alt"></i> Delete</button>
-              </td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
-    </main>
+                  <td>
+                    <button class="edit-btn"><i class="fas fa-edit"></i>Edit</button>
+                    <form
+  class="inline-edit-form"
+  action="/admin/user/{{this._id}}"
+  method="POST"
+  style="display: none;"
+>
+  <div class="form-group">
+    <label for="email-{{@index}}">Email</label>
+    <input
+      type="email"
+      id="email-{{@index}}"
+      name="email"
+      value="{{this.email}}"
+      required
+    />
   </div>
-</body>
+
+  <div class="form-group">
+    <label for="password-{{@index}}">Password</label>
+    <input
+      type="password"
+      id="password-{{@index}}"
+      name="password"
+      required
+    />
+  </div>
+
+  <div class="inline-edit-actions">
+    <button type="submit" class="save-btn">Save</button>
+    <button type="button" class="cancel-btn">Cancel</button>
+  </div>
+</form>
+
+                    <button class="delete-btn" data-id="{{this._id}}"><i
+                        class="fas fa-trash-alt"
+                      ></i>
+                      Delete</button>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </body>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.edit-btn').forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      const form = btn.nextElementSibling;
+      form.style.display = 'block';
+      btn.style.display = 'none';
+    });
+  });
+
+  document.querySelectorAll('.cancel-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const form = btn.closest('.inline-edit-form');
+      form.style.display = 'none';
+      form.previousElementSibling.style.display = 'inline-block'; // Show edit button again
+    });
+  });
+  
     const deleteButtons = document.querySelectorAll(".delete-btn");
 
     deleteButtons.forEach(button => {
@@ -91,11 +147,4 @@
   });
 </script>
 
-
-
-
-
-
-
 </html>
-

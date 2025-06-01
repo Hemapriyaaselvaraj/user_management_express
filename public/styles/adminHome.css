@@ -112,3 +112,83 @@ body {
 .delete-btn:hover {
   background-color: #c0392b;
 }
+
+/* Inline Edit Form */
+.inline-edit-form {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.inline-edit-form .form-group {
+  margin-bottom: 10px;
+}
+
+.inline-edit-form input,
+.inline-edit-form select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Inline Action Buttons */
+.inline-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.inline-edit-actions .save-btn {
+  background-color: #27ae60;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.inline-edit-actions .save-btn:hover {
+  background-color: #1e8449;
+}
+
+.inline-edit-actions .cancel-btn {
+  background-color: #bdc3c7;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.inline-edit-actions .cancel-btn:hover {
+  background-color: #95a5a6;
+}
+
+/* Form Container */
+.edit-form-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Reduce width */
+.narrow-form {
+  width: 250px;
+}
+
+/* Form labels */
+.inline-edit-form label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}

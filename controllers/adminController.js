@@ -18,5 +18,13 @@ const deleteUser = async(req,res) => {
     res.status(200).send();
 }
 
+const updateUser = async(req,res) => {
 
-module.exports = {loadDashboard, deleteUser}
+    var myquery = { _id: req.params.id };
+    var newvalues = { $set: {email: req.body.email, password:req.body.password } };
+    await userModel.updateOne(myquery, newvalues)
+    res.redirect('/admin/dashboard')
+}
+
+
+module.exports = {loadDashboard, deleteUser,updateUser}
