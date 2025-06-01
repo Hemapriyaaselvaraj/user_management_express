@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="/styles/userlogin.css">
+
+<main>
+  <div class="container">
+    <div class="login-form">
+      <h2>Log In</h2>
+      <p>Welcome back! Please enter your details</p>
+      <form method="post" action="/user/login">
+
+         <input type = "text" id="message" value="{{{message}}}" name="message" hidden>
+
+        <label>Email</label>
+        <input id="email" name="email" type="email" placeholder="Enter your email" required />
+
+        <label>Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter your password" required />
+
+        <a href="#" class="forgot">Forgot password?</a>
+
+        <button type="submit">Log In</button>
+
+        <div class="divider">Or Continue With</div>
+        <div class="social-buttons">
+          <button class="google">Google</button>
+          <button class="facebook">Facebook</button>
+        </div>
+        <p class="signup">Don't have an account? <a href="#">Sign up</a></p>
+      </form>
+    </div>
+    <div class="login-image">
+      <img src="/images/real-flowers-purple.jpg" alt="Fitness Login Image" />
+    </div>
+  </div>
+</main>
+
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function(){
+
+    const message = document.getElementById('message').value;
+    if(message){
+        swal(message);
+    }
+    document.querySelector('form').addEventListener('submit', formValidate);
+});
+
+    function formValidate(e){
+
+    e.preventDefault();
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    if(email == ""|| password == ""){
+
+        swal("All fields are required");
+         return false;
+    }
+
+   e.target.submit();
+   return true; 
+}
+
+</script>

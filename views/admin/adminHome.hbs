@@ -1,0 +1,101 @@
+<link rel="stylesheet" href="/styles/adminHome.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/styles/adminHome.css" />
+</head>
+
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>User Panel</h2>
+      <ul>
+        <li><i class="fas fa-home"></i> Dashboard</li>
+        <li><i class="fas fa-users"></i> Users</li>
+        <li><i class="fas fa-user-plus"></i> Add User</li>
+        <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+      <h1>User List</h1>
+      <p class="welcome">Welcome back, Admin!</p>
+
+      <div class="user-table-wrapper">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Email ID</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each users}}
+            <tr>
+              <td>{{@index}}</td>
+              <td>{{this.email}}</td>
+              <td>{{this.role}}</td>
+
+              <td>
+                <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                <button class="delete-btn" data-id="{{this._id}}"><i class="fas fa-trash-alt"></i> Delete</button>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach(button => {
+      button.addEventListener("click", async () => {
+        const userId = button.getAttribute("data-id");
+
+
+        try {
+          const response = await fetch(`/admin/user/${userId}`, {
+            method: "DELETE",
+          });
+
+          if (response.ok) {
+            alert("User deleted successfully");
+            location.reload(); // Refresh page to update table
+          } else {
+            const data = await response.json();
+            alert(`Error: ${data.message || "Failed to delete user"}`);
+          }
+        } catch (err) {
+          alert("Network error: " + err.message);
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+</html>
+
