@@ -21,20 +21,54 @@
   <body>
     <div class="dashboard-wrapper">
       <!-- Sidebar -->
-      <aside class="sidebar">
-        <h2>User Panel</h2>
-        <ul>
-          <li><i class="fas fa-home"></i> Dashboard</li>
-          <li><i class="fas fa-users"></i> Users</li>
-          <li><i class="fas fa-user-plus"></i> Add User</li>
-          <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-        </ul>
-      </aside>
+       <aside class="sidebar">
+    <h2>User Panel</h2>
+    <ul>
+      <li><i class="fas fa-home"></i> Dashboard</li>
+      <li id="addUserBtn"><i class="fas fa-user-plus"></i> Add User</li>
+      <li><i class="fas fa-sign-out-alt" ></i><a href="/user/logout" > Logout</a></li>
+
+    </ul>
+  </aside>
+
+  <!-- Hidden Form -->
+<div class="form-container" id="userForm">
+  <h3>Create New User</h3>
+  <form method="post" action="/admin/user">
+
+    <label>Email</label>
+    <input id="email" name="email" type="email" placeholder="Enter your email" />
+
+    <label>Password</label>
+    <input id="password" name="password" type="password" placeholder="Enter your password" />
+
+    <label>Confirm Password</label>
+    <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Enter password again" />
+
+    <label>User Role</label>
+    <div class="role-options">
+      <span><label><input type="radio" name="role" value="user" checked> User</label></span>
+      <label><input type="radio" name="role" value="admin"> Admin</label>
+    </div>
+
+    <div class="create-form-buttons">
+      <button type="submit">Create</button>
+      <button type="button" id="cancelCreateBtn">Cancel</button>
+    </div>
+  </form>
+</div>
+
 
       <!-- Main Content -->
       <main class="dashboard-content">
         <h1>User List</h1>
         <p class="welcome">Welcome back, Admin!</p>
+
+        {{#if message}}
+  <div class="banner-message">
+    {{message}}
+  </div>
+{{/if}}
 
         <div class="user-table-wrapper">
           <table class="user-table">
@@ -145,6 +179,13 @@
       });
     });
   });
+   document.getElementById("addUserBtn").addEventListener("click", function () {
+      document.getElementById("userForm").style.display = "block";
+    });
+    document.getElementById("cancelCreateBtn").addEventListener("click", () => {
+  document.getElementById("userForm").style.display = "none";
+});
+
 </script>
 
 </html>
