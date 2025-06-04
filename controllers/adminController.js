@@ -6,7 +6,13 @@ const loadDashboard = async (req, res) => {
   const isAdmin = req.session.role == "admin";
   if (!isAdmin) return res.redirect("/user/home");
 
-  const users = await userModel.find({});
+  let users;
+  if(req.query.email){
+    users = await userModel.find({ email: new RegExp(req.query.email, 'i') })
+    console.log("email", JSON.stringify(users));
+  } else {
+     users = await userModel.find({});
+  }
 
   if (req.query.message) {
     res.render("admin/adminHome", { users, message: req.query.message });
@@ -14,6 +20,7 @@ const loadDashboard = async (req, res) => {
     res.render("admin/adminHome", { users });
   }
 };
+
 
 const deleteUser = async (req, res) => {
   await userModel.deleteOne({ _id: req.params.id });
