@@ -17,7 +17,7 @@ const registerUser = async(req,res) => {
         const newUser = new userModel ({
             email,
             password : hashedPassword,
-            role
+            role: 'user'
         })
 
         await newUser.save()
@@ -60,6 +60,7 @@ const login = async(req,res) => {
 
          req.session.user = true
          req.session.role = user.role;
+         req.session.userId = user._id;
 
        if(user.role == "user"){
         res.redirect('/user/home')

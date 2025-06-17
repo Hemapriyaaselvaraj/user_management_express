@@ -6,13 +6,12 @@ const path = require('path');
 const connectDB = require('./db/connectDB')
 const session = require('express-session')
 const nocache = require('nocache');
-// const exphbs = require('express-handlebars');
-
-
+const hbs = require("express-handlebars");
+require('dotenv').config();
 
 app.use(nocache())
 app.use(session({
-    secret:'mysecretkey',
+    secret: process.env.SESSION_SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -20,28 +19,21 @@ app.use(session({
     }
 }))
 
-
-// const hbs = exphbs.create({
-//   extname: '.hbs',
-//   helpers: {
-//     eq: (a, b) => a === b
-//   }
-// });
-
+app.engine("hbs", hbs.engine({
+  extname: "hbs",
+  helpers: {
+    add: (a, b) => a + b
+  }
+}));
 
 app.set('views',path.join(__dirname,'views'));
-// app.engine('hbs', hbs.engine);
 app.set('view engine','hbs');
 app.use(express.static('public'));
-
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 app.use('/user',userRoutes)
 app.use('/admin',adminRoutes)
-
-
-
 
 
 connectDB();

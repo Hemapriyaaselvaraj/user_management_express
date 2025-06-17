@@ -8,16 +8,17 @@ const loadDashboard = async (req, res) => {
 
   let users;
   if(req.query.email){
-    users = await userModel.find({ email: new RegExp(req.query.email, 'i') })
-    console.log("email", JSON.stringify(users));
+    users = await userModel.find({ email: new RegExp(req.query.email, 'i') }).lean()
   } else {
-     users = await userModel.find({});
+     users = await userModel.find({}).lean();
   }
 
+  const filteredUsers = users.filter(user => !user._id.equals( req.session.userId));
+
   if (req.query.message) {
-    res.render("admin/adminHome", { users, message: req.query.message });
+    res.render("admin/adminHome", { users : filteredUsers, message: req.query.message });
   } else {
-    res.render("admin/adminHome", { users });
+    res.render("admin/adminHome", { users: filteredUsers });
   }
 };
 

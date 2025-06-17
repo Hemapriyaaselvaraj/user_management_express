@@ -83,7 +83,8 @@
             <tbody>
               {{#each users}}
                 <tr>
-                  <td>{{@index}}</td>
+                  {{!-- <td>{{@index}}</td> --}}
+                  <td>{{add @index 1}}</td>
                   <td>{{this.email}}</td>
                   <td>{{this.role}}</td>
 
