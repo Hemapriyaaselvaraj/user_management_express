@@ -15,11 +15,7 @@ const loadDashboard = async (req, res) => {
 
   const filteredUsers = users.filter(user => !user._id.equals( req.session.userId));
 
-  if (req.query.message) {
-    res.render("admin/adminHome", { users : filteredUsers, message: req.query.message });
-  } else {
-    res.render("admin/adminHome", { users: filteredUsers });
-  }
+  res.render("admin/adminHome", { users: filteredUsers });
 };
 
 
@@ -32,8 +28,9 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const user = await userModel.findOne({ email: req.body.email });
   if (user && user._id != req.params.id) {
-    res.redirect("/admin/dashboard?message=Username_already_in_use");
-  } else {
+    req.flash("error", "Username already in use");
+    return res.redirect("/admin/dashboard");
+} else {
     var myquery = { _id: req.params.id };
     var newvalues = {
       $set: { email: req.body.email, password: req.body.password },
@@ -44,12 +41,13 @@ const updateUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   if (user) {
-    res.redirect("/admin/dashboard?message=User_already_exists");
+    req.flash("error", "User already exist");
+    return res.redirect("/admin/dashboard");
   } else {
-    const newUser = { email: email, password: password, role: role };
+    const newUser = { email: email, password: password, role: 'user' };
     await userModel.create(newUser);
     res.redirect("/admin/dashboard");
   }

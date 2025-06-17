@@ -7,6 +7,7 @@ const connectDB = require('./db/connectDB')
 const session = require('express-session')
 const nocache = require('nocache');
 const hbs = require("express-handlebars");
+const flash = require("connect-flash");
 require('dotenv').config();
 
 app.use(nocache())
@@ -18,6 +19,8 @@ app.use(session({
         maxAge:1000*60*60*24
     }
 }))
+app.use(flash());
+
 
 app.engine("hbs", hbs.engine({
   extname: "hbs",
@@ -25,6 +28,13 @@ app.engine("hbs", hbs.engine({
     add: (a, b) => a + b
   }
 }));
+
+
+app.use((req, res, next) => {
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  next();
+});
 
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','hbs');

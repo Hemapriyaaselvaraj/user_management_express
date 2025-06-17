@@ -45,12 +45,6 @@
     <label>Confirm Password</label>
     <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Enter password again" />
 
-    <label>User Role</label>
-    <div class="role-options">
-      <span><label><input type="radio" name="role" value="user" checked> User</label></span>
-      <label><input type="radio" name="role" value="admin"> Admin</label>
-    </div>
-
     <div class="create-form-buttons">
       <button type="submit">Create</button>
       <button type="button" id="cancelCreateBtn">Cancel</button>
@@ -64,10 +58,8 @@
         <h1>User List</h1>
         <p class="welcome">Welcome back, Admin!</p>
 
-        {{#if message}}
-  <div class="banner-message">
-    {{message}}
-  </div>
+{{#if error}}
+  <div class="banner-message">{{error}}</div>
 {{/if}}
 
         <div class="user-table-wrapper">
